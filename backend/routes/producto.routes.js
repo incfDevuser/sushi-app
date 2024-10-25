@@ -6,7 +6,7 @@ import upload from "../middlewares/multerConfig.js";
 const router = express.Router();
 
 //Ruta para obtener los productos
-router.get("/", AuthMiddleware.authToken, ProductoController.obtenerProductos);
+router.get("/", ProductoController.obtenerProductos);
 
 //Ruta para obtener un producto
 router.get(

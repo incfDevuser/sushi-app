@@ -16,12 +16,13 @@ import PedidosContainer from "./Pedidos/PedidosContainer";
 //Usuario Admin
 import DashboardPage from "./Pages/DashboardPage";
 //Contextos
+import { ProductProvider } from "./Products/Context/ProductContext";
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
       <BrowserRouter>
-      <Header/>
+        <Header />
         <Navbar />
         <div className="flex-grow">
           <Routes>
@@ -33,23 +34,28 @@ function App() {
             <Route path="/registrarse" element={<RegisterPage />} />
 
             {/* Menu - Lista de Productos */}
-            <Route path="/menu" element={<ProductPage />} />
+            <Route
+              path="/menu"
+              element={
+                <ProductProvider>
+                  <ProductPage />
+                </ProductProvider>
+              }
+            />
 
             {/* Sobre Nosotros Page */}
             <Route path="/nosotros" element={<NosotrosPage />} />
 
             {/* Ruta de Usuario */}
-            <Route path="/perfil" element={<PerfilPage/>}/>
-            <Route path="/carrito" element={<CarritoContainer/>}/>
-            <Route path="/pedidos" element={<PedidosContainer/>}/>
+            <Route path="/perfil" element={<PerfilPage />} />
+            <Route path="/carrito" element={<CarritoContainer />} />
+            <Route path="/pedidos" element={<PedidosContainer />} />
 
             {/* Ruta Usuario "Super Admin" - Dashboard */}
-            <Route path="/dashboard" element={<DashboardPage/>}/>
-
-
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Routes>
         </div>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

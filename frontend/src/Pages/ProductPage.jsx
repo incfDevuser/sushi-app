@@ -1,9 +1,9 @@
 import React from 'react'
-
+import ProductsContainer from '../Products/ProductsContainer'
 const ProductPage = () => {
   return (
     <div>
-      este es nuestro menu
+      <ProductsContainer/>
     </div>
   )
 }
