@@ -70,7 +70,7 @@ export const UsuarioProvider = ({ children }) => {
     try {
       const response = await axios.post(
         `${baseURL}/usuarios/registrarse`,
-        { nuevoUsuario },
+        nuevoUsuario,
         { withCredentials: true }
       );
       console.log(response.data);
