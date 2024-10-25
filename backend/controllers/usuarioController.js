@@ -108,21 +108,27 @@ const registrarse = async (req, res) => {
 //Funcion para iniciar sesion
 const iniciarSesion = async (req, res) => {
   const { email, contraseña } = req.body;
-  //Verificar si el usuario existe
-  const usuario = await Usuario.findOne({ email });
-  if (!usuario) {
-    return res.status(400).json({
-      message: "Usuario no encontrado",
-    });
-  }
-  //Comparar la contrasena
-  const compararContrasena = bcrypt.compareSync(contraseña, usuario.contraseña);
-  if (!compararContrasena) {
-    return res.status(401).json({
-      message: "Contraseñas no coinciden",
-    });
-  }
   try {
+    const usuario = await Usuario.findOne({ email });
+    if (!usuario) {
+      return res.status(400).json({
+        message: "Usuario no encontrado",
+      });
+    }
+    if (!contraseña || !usuario.contraseña) {
+      return res.status(400).json({
+        message: "Credenciales incompletas",
+      });
+    }
+    const compararContrasena = bcrypt.compareSync(
+      contraseña,
+      usuario.contraseña
+    );
+    if (!compararContrasena) {
+      return res.status(401).json({
+        message: "Contraseñas no coinciden",
+      });
+    }
     const payload = {
       _id: usuario._id,
       nombre: usuario.nombre_completo,
@@ -136,15 +142,15 @@ const iniciarSesion = async (req, res) => {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "lax",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
     };
     res.cookie("token_acceso", token, cookieOptions);
     return res.status(200).json({
-      message: "Inicio Sesion Exitoso",
+      message: "Inicio de sesión exitoso",
       usuario: payload,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error al iniciar sesión:", error);
     res.status(500).json({
       message: "Error interno del servidor",
     });

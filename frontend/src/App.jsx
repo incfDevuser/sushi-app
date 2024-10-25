@@ -8,6 +8,14 @@ import ProductPage from "./Pages/ProductPage";
 import NosotrosPage from "./Pages/NosotrosPage";
 import Footer from "./Components/Footer";
 
+//Usuarios
+import PerfilPage from "./Pages/PerfilPage";
+import CarritoContainer from "./Carrito/CarritoContainer";
+import PedidosContainer from "./Pedidos/PedidosContainer";
+//Usuario Admin
+import DashboardPage from "./Pages/DashboardPage";
+//Contextos
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
@@ -27,6 +35,16 @@ function App() {
 
             {/* Sobre Nosotros Page */}
             <Route path="/nosotros" element={<NosotrosPage />} />
+
+            {/* Ruta de Usuario */}
+            <Route path="/perfil" element={<PerfilPage/>}/>
+            <Route path="/carrito" element={<CarritoContainer/>}/>
+            <Route path="/pedidos" element={<PedidosContainer/>}/>
+
+            {/* Ruta Usuario "Super Admin" - Dashboard */}
+            <Route path="/dashboard" element={<DashboardPage/>}/>
+
+
           </Routes>
         </div>
         <Footer/>
