@@ -11,6 +11,10 @@ const DespachoSchema = new mongoose.Schema({
     ref: "Usuario",
     required: true,
   },
+  origen_entrega:{
+    type:String,
+    required:true
+  },
   direccion_entrega: { 
     type: String, 
     required: true 

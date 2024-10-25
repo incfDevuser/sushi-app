@@ -1,5 +1,9 @@
 import Pedido from "../models/pedidoSchema.js";
 import Carrito from "../models/carritoSchema.js";
+import Boleta from "../models/boletaSchema.js";
+import nodemailer from 'nodemailer'
+
+
 
 const obtenerPedidos = async (req, res) => {
   try {
@@ -68,9 +72,17 @@ const crearPedido = async (req, res) => {
       descuento,
     });
     await nuevoPedido.save();
+    //Crear nueva boleta
+    const nuevaBoleta = new Boleta({
+      pedido: nuevoPedido.id,
+      monto_total: nuevoPedido.total_pedido,
+      email_cliente: req.user.email
+    })
+    await nuevaBoleta.save();
     return res.status(201).json({
-      message: "Pedido creado con éxito",
+      message: "Pedido creado con éxito y Boleta generada",
       pedido: nuevoPedido,
+      boleta: nuevaBoleta
     });
   } catch (error) {
     console.error(error);
