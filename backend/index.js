@@ -9,6 +9,7 @@ import conexion from "./config/db.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import productosRoutes from "./routes/producto.routes.js";
 import carritoRoutes from './routes/carrito.routes.js'
+import pedidosRoutes from './routes/pedido.routes.js'
 
 dotenv.config();
 conexion();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/productos", productosRoutes);
 app.use("/api/carrito", carritoRoutes)
+app.use("/api/pedidos", pedidosRoutes)
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

@@ -1,7 +1,6 @@
 import Pedido from "../models/pedidoSchema.js";
 import Carrito from "../models/carritoSchema.js";
 
-//Obtener todos los pedidos
 const obtenerPedidos = async (req, res) => {
   try {
     const pedidos = await Pedido.find({});
@@ -16,11 +15,10 @@ const obtenerPedidos = async (req, res) => {
     });
   }
 };
-//Obtener pedido
 const obtenerPedido = async (req, res) => {
   const { id } = req.params;
   try {
-    const pedido = await Pedido.findById({ id });
+    const pedido = await Pedido.findById(id);
     if (!pedido) {
       return res.status(404).json({
         message: "Pedido no encontrado",
@@ -37,13 +35,15 @@ const obtenerPedido = async (req, res) => {
     });
   }
 };
-//Crear el pedido con el carrito
 const crearPedido = async (req, res) => {
-  const { carritoId, medio_pago, descuento } = req.body;
-  const { clienteId } = req.params;
-
   try {
-    //Buscar el carrito en la base de datos
+    const { carritoId, medio_pago, descuento } = req.body;
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({
+        message: "No se ha encontrado la sesión del usuario autenticado",
+      });
+    }
+    const { _id: clienteId } = req.user;
     const carrito = await Carrito.findById(carritoId).populate(
       "productos.producto"
     );
@@ -79,9 +79,74 @@ const crearPedido = async (req, res) => {
     });
   }
 };
-
+const obtenerPedidosUsuario = async (req, res) => {
+  try {
+    const { _id: clienteId } = req.user;
+    const pedidos = await Pedido.find({ cliente: clienteId }).populate(
+      "carrito"
+    );
+    if (!pedidos.length) {
+      return res.status(404).json({
+        message: "No se encontraron pedidos para este usuario",
+      });
+    }
+    return res.status(200).json({
+      message: "Pedidos encontrados de un Usuario",
+      pedidos,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error al obtener los pedidos del usuario",
+    });
+  }
+};
+const eliminarPedido = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pedidoEliminado = await Pedido.findByIdAndDelete(id);
+    if (!pedidoEliminado) {
+      return res.status(404).json({
+        message: "Pedido no encontrado",
+      });
+    }
+    return res.status(200).json({
+      message: "Pedido eliminado con éxito",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error al eliminar el pedido",
+    });
+  }
+};
+const cancelarPedido = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pedido = await Pedido.findById(id);
+    if (!pedido) {
+      return res.status(404).json({
+        message: "Pedido no encontrado",
+      });
+    }
+    pedido.estado_pedido = "Anulado";
+    await pedido.save();
+    return res.status(200).json({
+      message: "Pedido cancelado con éxito",
+      pedido,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error al cancelar el pedido",
+    });
+  }
+};
 export const PedidoController = {
   obtenerPedidos,
   obtenerPedido,
   crearPedido,
+  eliminarPedido,
+  cancelarPedido,
+  obtenerPedidosUsuario,
 };
