@@ -31,10 +31,33 @@ const isSuperAdmin = async (req, res, next) => {
   }
   next();
 };
-
 //Hacer los demas para los roles
-
+const isDespachador = async (req, res, next) => {
+  const usuario = req.user;
+  if (!usuario || usuario.rol !== "despacho") {
+    return res.status(401).json({
+      message: "Acceso denegado, solo Despachadores",
+    });
+  }
+  next();
+};
+const isDespachadorOrSuperAdmin = (req, res, next) => {
+  const usuario = req.user;
+  if (!usuario) {
+    return res.status(401).json({
+      message: "Acceso denegado, usuario no autenticado",
+    });
+  }
+  if (usuario.rol !== "despacho" && usuario.rol !== "super_admin") {
+    return res.status(401).json({
+      message: `Acceso denegado, su rol es: ${usuario.rol}`,
+    });
+  }
+  next();
+};
 export const AuthMiddleware = {
   authToken,
   isSuperAdmin,
+  isDespachador,
+  isDespachadorOrSuperAdmin,
 };

@@ -8,8 +8,9 @@ import conexion from "./config/db.js";
 //Rutas
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import productosRoutes from "./routes/producto.routes.js";
-import carritoRoutes from './routes/carrito.routes.js'
-import pedidosRoutes from './routes/pedido.routes.js'
+import carritoRoutes from "./routes/carrito.routes.js";
+import pedidosRoutes from "./routes/pedido.routes.js";
+import despachoRoutes from "./routes/despacho.routes.js";
 
 dotenv.config();
 conexion();
@@ -23,8 +24,9 @@ app.use(cookieParser());
 //Rutas
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/productos", productosRoutes);
-app.use("/api/carrito", carritoRoutes)
-app.use("/api/pedidos", pedidosRoutes)
+app.use("/api/carrito", carritoRoutes);
+app.use("/api/pedidos", pedidosRoutes);
+app.use("/api/despachos", despachoRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

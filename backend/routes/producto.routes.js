@@ -6,10 +6,14 @@ import upload from "../middlewares/multerConfig.js";
 const router = express.Router();
 
 //Ruta para obtener los productos
-router.get("/", ProductoController.obtenerProductos);
+router.get("/", AuthMiddleware.authToken, ProductoController.obtenerProductos);
 
 //Ruta para obtener un producto
-router.get("/:id", ProductoController.obtenerProducto);
+router.get(
+  "/:id",
+  AuthMiddleware.authToken,
+  ProductoController.obtenerProducto
+);
 
 //Ruta para crear un producto, el super admin puede crear los productos
 router.post(

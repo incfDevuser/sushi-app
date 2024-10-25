@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const PedidoSchema = new mongoose.Schema({
   cliente: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Cliente",
+    ref: "Usuario",
     required: true,
   },
   carrito: {
@@ -43,7 +43,7 @@ const PedidoSchema = new mongoose.Schema({
   ],
   cajero_virtual: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Cliente",
+    ref: "Usuario",
     required: true,
   },
   medio_pago: {

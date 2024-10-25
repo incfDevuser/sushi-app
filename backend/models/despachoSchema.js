@@ -8,7 +8,7 @@ const DespachoSchema = new mongoose.Schema({
   },
   encargado_despacho: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Cliente",
+    ref: "Usuario",
     required: true,
   },
   direccion_entrega: { 
