@@ -7,6 +7,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import ProductPage from "./Pages/ProductPage";
 import NosotrosPage from "./Pages/NosotrosPage";
 import Footer from "./Components/Footer";
+import Header from "./Components/Header";
 
 //Usuarios
 import PerfilPage from "./Pages/PerfilPage";
@@ -20,6 +21,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
       <BrowserRouter>
+      <Header/>
         <Navbar />
         <div className="flex-grow">
           <Routes>

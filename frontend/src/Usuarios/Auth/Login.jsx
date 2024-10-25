@@ -54,7 +54,7 @@ const Login = () => {
         Iniciar Sesión
       </button>
       <p className="mt-4 text-center text-gray-600">
-        ¿Nuevo en Sushi App?{" "}
+        ¿Nuevo en Fukusuke?{" "}
         <Link
           to="/registrarse"
           className="text-red-500 hover:text-red-600 font-medium"

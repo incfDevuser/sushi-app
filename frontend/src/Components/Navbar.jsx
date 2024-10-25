@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav className="flex justify-between items-center p-11">
       {/* Nombre del Local */}
       <div className="flex-1 text-2xl font-bold text-rojoPersonalizado hover:text-red-600 transition duration-200">
-        <Link to="/">Sushi App</Link>
+        <Link to="/">Fukusuke</Link>
       </div>
       {/* Links de navegación principales */}
       <div className="flex-1 flex justify-center">
