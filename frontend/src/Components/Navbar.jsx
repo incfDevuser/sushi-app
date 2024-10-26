@@ -7,6 +7,7 @@ import { FaRegUser } from "react-icons/fa";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
 import { VscGraphLine } from "react-icons/vsc";
+import { IoCartOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const { rol, autenticado, cerrarSesion } = useUsuario();
@@ -55,15 +56,19 @@ const Navbar = () => {
             <Link to="/dashboard" className="text-xl">
               <VscGraphLine />
             </Link>
+            {/* Link a Crear Producto */}
+            <Link to="/crearProducto" className="text-xl">
+              <IoIosAddCircleOutline />
+            </Link>
           </>
         )}
         {/* Si es que esta autenticado, es decir que hay un usuario se muestran estos iconos */}
         {autenticado && (
           <>
             <div className="flex justify-center items-center gap-9">
-              {/* Link a Mi Carrito */}
-              <Link to="/crearProducto" className="text-xl">
-                <IoIosAddCircleOutline />
+              {/* Mi carrito */}
+              <Link to="/carrito" className="text-xl">
+                <IoCartOutline />
               </Link>
               {/* Link a Mis Pedidos */}
               <Link to="/pedidos" className="text-xl">
