@@ -17,6 +17,7 @@ import PedidosContainer from "./Pedidos/PedidosContainer";
 import DashboardPage from "./Pages/DashboardPage";
 //Contextos
 import { ProductProvider } from "./Products/Context/ProductContext";
+import { UsuarioProvider } from "./Usuarios/Context/UsuarioContext";
 
 function App() {
   return (
@@ -47,7 +48,14 @@ function App() {
             <Route path="/nosotros" element={<NosotrosPage />} />
 
             {/* Ruta de Usuario */}
-            <Route path="/perfil" element={<PerfilPage />} />
+            <Route
+              path="/perfil"
+              element={
+                <UsuarioProvider>
+                  <PerfilPage />
+                </UsuarioProvider>
+              }
+            />
             <Route path="/carrito" element={<CarritoContainer />} />
             <Route path="/pedidos" element={<PedidosContainer />} />
 
