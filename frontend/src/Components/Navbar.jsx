@@ -63,7 +63,7 @@ const Navbar = () => {
           </>
         )}
         {/* Si es que esta autenticado, es decir que hay un usuario se muestran estos iconos */}
-        {autenticado && (
+        {autenticado &&  (
           <>
             <div className="flex justify-center items-center gap-9">
               {/* Mi carrito */}

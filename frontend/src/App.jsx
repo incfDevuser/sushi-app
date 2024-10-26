@@ -22,6 +22,9 @@ import { UsuarioProvider } from "./Usuarios/Context/UsuarioContext";
 //Productos
 import CrearProductoPage from "./Pages/CrearProductoPage";
 
+//Carrito
+import { CarritoProvider } from "./Carrito/Context/CarritoContext";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
@@ -59,7 +62,14 @@ function App() {
                 </UsuarioProvider>
               }
             />
-            <Route path="/carrito" element={<CarritoContainer />} />
+            <Route
+              path="/carrito"
+              element={
+                <CarritoProvider>
+                  <CarritoContainer />
+                </CarritoProvider>
+              }
+            />
             <Route path="/pedidos" element={<PedidosContainer />} />
 
             {/* Ruta Usuario "Super Admin" - Dashboard */}
