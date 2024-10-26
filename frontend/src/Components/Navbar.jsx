@@ -4,7 +4,7 @@ import { NavLinks } from "../constants/NavbarData";
 import { useUsuario } from "../Usuarios/Context/UsuarioContext";
 //Iconos
 import { FaRegUser } from "react-icons/fa";
-import { FiShoppingCart } from "react-icons/fi";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
 import { VscGraphLine } from "react-icons/vsc";
 
@@ -61,17 +61,17 @@ const Navbar = () => {
         {autenticado && (
           <>
             <div className="flex justify-center items-center gap-9">
-              {/* Link a Mi Perfil */}
-              <Link to="/perfil" className="text-xl">
-                <FaRegUser />
-              </Link>
               {/* Link a Mi Carrito */}
-              <Link to="/carrito" className="text-xl">
-                <FiShoppingCart />
+              <Link to="/crearProducto" className="text-xl">
+                <IoIosAddCircleOutline />
               </Link>
               {/* Link a Mis Pedidos */}
               <Link to="/pedidos" className="text-xl">
                 <FaClipboardList />
+              </Link>
+              {/* Link a Mi Perfil */}
+              <Link to="/perfil" className="text-xl">
+                <FaRegUser />
               </Link>
               {/* Boton de cerrar sesion */}
               <button

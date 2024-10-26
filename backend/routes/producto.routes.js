@@ -26,7 +26,7 @@ router.post(
 
 //Ruta para eliminar un producto, el super admin puede eliminar productos
 router.delete(
-  "/:id",
+  "/producto/:id",
   AuthMiddleware.authToken,
   AuthMiddleware.isSuperAdmin,
   ProductoController.eliminarProducto

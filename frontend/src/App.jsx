@@ -18,6 +18,9 @@ import DashboardPage from "./Pages/DashboardPage";
 //Contextos
 import { ProductProvider } from "./Products/Context/ProductContext";
 
+//Productos
+import CrearProductoPage from "./Pages/CrearProductoPage";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
@@ -53,6 +56,16 @@ function App() {
 
             {/* Ruta Usuario "Super Admin" - Dashboard */}
             <Route path="/dashboard" element={<DashboardPage />} />
+
+            {/* Crear producto page */}
+            <Route
+              path="/crearProducto"
+              element={
+                <ProductProvider>
+                  <CrearProductoPage />
+                </ProductProvider>
+              }
+            />
           </Routes>
         </div>
         <Footer />

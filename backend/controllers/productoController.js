@@ -76,7 +76,7 @@ const crearProducto = async (req, res) => {
 const eliminarProducto = async (req, res) => {
   const { id } = req.params;
   try {
-    const productoEliminado = await Producto.findOneAndDelete(id);
+    const productoEliminado = await Producto.findOneAndDelete({_id:id});
     if (!productoEliminado) {
       return res.status(400).json({
         message: "Error al eliminar el Producto",

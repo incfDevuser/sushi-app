@@ -35,18 +35,17 @@ export const ProductProvider = ({ children }) => {
       if (nuevoProducto.imagen) {
         formData.append("imagen", nuevoProducto.imagen);
       }
+
       const response = await axios.post(
         `${baseURL}/productos/crearProducto`,
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          withCredentials: true,
         }
       );
       setProductos((prevProductos) => [
         ...prevProductos,
-        response.data.producto,
+        response.data.nuevoProducto,
       ]);
     } catch (error) {
       console.error("Error creando producto:", error);
