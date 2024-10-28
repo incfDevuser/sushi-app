@@ -11,7 +11,7 @@ router.get("/", AuthMiddleware.authToken, CarritoController.obtenerCarrito);
 router.post("/agregar", AuthMiddleware.authToken, CarritoController.agregarProductoAlCarrito);
 
 //Ruta para eliminar un producto del carrito del usuario autenticado
-router.delete("/eliminar", AuthMiddleware.authToken, CarritoController.eliminarProductoDelCarrito);
+router.delete("/:carritoId/producto/:productoId", AuthMiddleware.authToken, CarritoController.eliminarProductoDelCarrito);
 
 //Ruta para vaciar el carrito del usuario autenticado
 router.post("/vaciar", AuthMiddleware.authToken, CarritoController.vaciarCarrito);

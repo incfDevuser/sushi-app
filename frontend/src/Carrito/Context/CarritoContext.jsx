@@ -42,12 +42,12 @@ export const CarritoProvider = ({ children }) => {
       console.error("Error al agregar producto al carrito:", error);
     }
   };
-  const eliminarProductoDelCarrito = async (productoId) => {
+  const eliminarProductoDelCarrito = async (carritoId, productoId) => {
     try {
-      const response = await axios.delete(`${baseURL}/carrito/eliminar`, {
-        data: { productoId },
-        withCredentials: true,
-      });
+      const response = await axios.delete(
+        `${baseURL}/carrito/${carritoId}/producto/${productoId}`,
+        { withCredentials: true }
+      );
       if (response.data && response.data.carrito) {
         setCarrito(response.data.carrito);
       }

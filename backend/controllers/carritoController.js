@@ -68,7 +68,7 @@ const agregarProductoAlCarrito = async (req, res) => {
 };
 //Eliminar un producto del carrito
 const eliminarProductoDelCarrito = async (req, res) => {
-  const { carritoId, productoId } = req.body;
+  const { carritoId, productoId } = req.params;
   try {
     const carrito = await Carrito.findById(carritoId);
     if (!carrito) {
@@ -76,8 +76,16 @@ const eliminarProductoDelCarrito = async (req, res) => {
         message: "Carrito no encontrado",
       });
     }
+    const productoEnCarrito = carrito.productos.find(
+      (p) => p.producto && p.producto.equals(productoId)
+    );
+    if (!productoEnCarrito) {
+      return res.status(404).json({
+        message: "Producto no encontrado en el carrito",
+      });
+    }
     carrito.productos = carrito.productos.filter(
-      (p) => !p.producto.equals(productoId)
+      (p) => p.producto && !p.producto.equals(productoId)
     );
     await carrito.save();
     return res.status(200).json({
@@ -85,9 +93,10 @@ const eliminarProductoDelCarrito = async (req, res) => {
       carrito,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error al eliminar el producto del carrito:", error);
     return res.status(500).json({
       message: "Error al eliminar el producto del carrito",
+      error: error.message,
     });
   }
 };
