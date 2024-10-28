@@ -1,4 +1,7 @@
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import HomePage from "./Pages/HomePage";
@@ -88,6 +91,7 @@ function App() {
         </div>
         <Footer />
       </BrowserRouter>
+      <ToastContainer/>
     </div>
   );
 }

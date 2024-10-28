@@ -6,7 +6,6 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 const CarritoView = () => {
   const { carrito, clearCart, updateItemQuantity } = useCarrito();
 
-  // Calculate the total cost of all items in the cart
   const totalCost = carrito
     ? carrito.productos.reduce(
         (acc, producto) => acc + producto.precio_unitario * producto.cantidad,

@@ -29,13 +29,9 @@ const CartItem = ({
         src={imagenCompletaUrl}
         alt={nombre}
       />
-
-      {/* Información del producto */}
       <div className="flex flex-col flex-grow">
         <h3 className="text-lg font-bold text-gray-900 mb-1">{nombre}</h3>
         <p className="text-sm text-gray-500 mb-2 truncate">{descripcion}</p>
-
-        {/* Precio y cantidad */}
         <div className="flex justify-between items-center">
           <p className="font-semibold text-green-600">{precioTotal}</p>
           <div className="flex items-center space-x-2">

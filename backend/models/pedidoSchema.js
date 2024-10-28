@@ -48,7 +48,7 @@ const PedidoSchema = new mongoose.Schema({
   },
   medio_pago: {
     type: String,
-    enum: ["Servipag", "Depósito Bancario"],
+    enum: ["Servipag", "Depósito Bancario","Mercado Pago"],
     required: true,
   },
   descuento: {
