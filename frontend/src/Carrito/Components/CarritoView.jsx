@@ -1,10 +1,11 @@
 import React from "react";
 import { useCarrito } from "../Context/CarritoContext";
 import CartItem from "./CartItem";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { toast } from "react-toastify";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const CarritoView = () => {
-  const { carrito, eliminarProductoDelCarrito } = useCarrito();
+  const { carrito, eliminarProductoDelCarrito, vaciarCarrito } = useCarrito();
   const totalCost = carrito
     ? carrito.productos
         .reduce(
@@ -13,11 +14,30 @@ const CarritoView = () => {
         )
         .toFixed(2)
     : "0.00";
+  const handleVaciar = async (carritoId) => {
+    try {
+      await vaciarCarrito(carritoId);
+      toast.success("Carrito Vaciado");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al vaciar el carrito");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4 bg-white rounded-lg">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
-        Tu Carrito de Compras
-      </h2>
+      <div className="flex gap-11 justify-center items-center mb-6 w-full text-center mx-auto">
+        <h2 className="text-3xl font-bold text-gray-800">
+          Tu Carrito de Compras
+        </h2>
+        <button
+          onClick={()=> handleVaciar(carrito._id)}
+          className="text-xl flex items-center gap-2 text-red-500 hover:text-red-700"
+        >
+          <AiOutlineDelete /> Vaciar Carrito
+        </button>
+      </div>
+
       {carrito && carrito.productos.length > 0 ? (
         <>
           <div className="w-full space-y-4 mb-6">
@@ -31,7 +51,7 @@ const CarritoView = () => {
                 imagenUrl={producto.producto.imagenUrl}
                 onDelete={() =>
                   eliminarProductoDelCarrito(carrito._id, producto.producto._id)
-                } // Usar producto.producto._id
+                }
               />
             ))}
           </div>

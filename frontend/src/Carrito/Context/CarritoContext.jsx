@@ -55,11 +55,11 @@ export const CarritoProvider = ({ children }) => {
       console.error("Error al eliminar producto del carrito:", error);
     }
   };
-  const vaciarCarrito = async () => {
+  const vaciarCarrito = async (carritoId) => {
     try {
       const response = await axios.post(
         `${baseURL}/carrito/vaciar`,
-        {},
+        {carritoId},
         { withCredentials: true }
       );
       if (response.data && response.data.carrito) {

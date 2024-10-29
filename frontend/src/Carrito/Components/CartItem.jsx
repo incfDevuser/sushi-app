@@ -1,6 +1,4 @@
 import React from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-
 const CartItem = ({
   nombre,
   descripcion,
@@ -28,7 +26,8 @@ const CartItem = ({
       <div className="flex flex-col flex-grow">
         <h3 className="text-lg font-bold text-gray-900 mb-1">{nombre}</h3>
         <p className="text-sm text-gray-500 mb-2 truncate">{descripcion}</p>
-        <div className="flex justify-between items-center">
+        <div className="flex gap-4 items-center">
+          <p className="bg-blue-500 text-white text-center font-semibold w-[25px] h-[25px] rounded-full">{cantidad}</p>
           <p className="font-semibold text-green-600">{precioTotal}</p>
         </div>
       </div>
