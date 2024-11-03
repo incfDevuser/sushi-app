@@ -1,13 +1,11 @@
 import Pedido from "../models/pedidoSchema.js";
 import Carrito from "../models/carritoSchema.js";
 import Boleta from "../models/boletaSchema.js";
-import nodemailer from 'nodemailer'
-
-
+import nodemailer from "nodemailer";
 
 const obtenerPedidos = async (req, res) => {
   try {
-    const pedidos = await Pedido.find({});
+    const pedidos = await Pedido.find({}).populate("cliente", "nombre_completo direccion comuna ciudad region email telefono");
     return res.status(200).json({
       message: "Lista de pedidos",
       pedidos,
@@ -76,13 +74,13 @@ const crearPedido = async (req, res) => {
     const nuevaBoleta = new Boleta({
       pedido: nuevoPedido.id,
       monto_total: nuevoPedido.total_pedido,
-      email_cliente: req.user.email
-    })
+      email_cliente: req.user.email,
+    });
     await nuevaBoleta.save();
     return res.status(201).json({
       message: "Pedido creado con éxito y Boleta generada",
       pedido: nuevoPedido,
-      boleta: nuevaBoleta
+      boleta: nuevaBoleta,
     });
   } catch (error) {
     console.error(error);
@@ -93,26 +91,41 @@ const crearPedido = async (req, res) => {
 };
 const obtenerPedidosUsuario = async (req, res) => {
   try {
-    const { _id: clienteId } = req.user;
-    const pedidos = await Pedido.find({ cliente: clienteId }).populate(
-      "carrito"
-    );
-    if (!pedidos.length) {
+    const clienteId = req.user._id;
+
+    // Popula el carrito, productos y cliente del pedido
+    const pedidos = await Pedido.find({ cliente: clienteId })
+      .populate({
+        path: "carrito",
+        populate: {
+          path: "productos.producto",
+          model: "Producto",
+        },
+      })
+      .populate({
+        path: "cliente",
+        model: "Usuario",
+        select: "nombre_completo email direccion comuna ciudad telefono", 
+      });
+
+    if (!pedidos || pedidos.length === 0) {
       return res.status(404).json({
         message: "No se encontraron pedidos para este usuario",
       });
     }
+
     return res.status(200).json({
       message: "Pedidos encontrados de un Usuario",
       pedidos,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener los pedidos del usuario:", error);
     return res.status(500).json({
       message: "Error al obtener los pedidos del usuario",
     });
   }
 };
+
 const eliminarPedido = async (req, res) => {
   const { id } = req.params;
   try {

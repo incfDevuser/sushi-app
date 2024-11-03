@@ -28,10 +28,16 @@ import CrearProductoPage from "./Pages/CrearProductoPage";
 //Carrito
 import { CarritoProvider } from "./Carrito/Context/CarritoContext";
 
+//Pedidos
+import { PedidoProvider } from "./Pedidos/Context/PedidoContext";
+
+//Rutas para ADMIN DASHBOARD
+import UsuariosContainer from "./Usuarios/UsuariosContainer";
+import PedidosAdminContainer from "./Admin/PedidosAdminContainer";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
-      <BrowserRouter>
         <Header />
         <Navbar />
         <div className="flex-grow">
@@ -57,26 +63,13 @@ function App() {
             <Route path="/nosotros" element={<NosotrosPage />} />
 
             {/* Ruta de Usuario */}
-            <Route
-              path="/perfil"
-              element={
-                <UsuarioProvider>
-                  <PerfilPage />
-                </UsuarioProvider>
-              }
-            />
-            <Route
-              path="/carrito"
-              element={
-                <CarritoProvider>
-                  <CarritoContainer />
-                </CarritoProvider>
-              }
-            />
+            <Route path="/perfil" element={<PerfilPage />} />
+            <Route path="/carrito" element={<CarritoContainer />} />
             <Route path="/pedidos" element={<PedidosContainer />} />
 
             {/* Ruta Usuario "Super Admin" - Dashboard */}
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/listaPedidos" element={<PedidosAdminContainer />} />
 
             {/* Crear producto page */}
             <Route
@@ -87,11 +80,13 @@ function App() {
                 </ProductProvider>
               }
             />
+
+            {/* Rutas ADMIN ASIDE */}
+            <Route path="/usuarios" element={<UsuariosContainer />} />
           </Routes>
         </div>
         <Footer />
-      </BrowserRouter>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

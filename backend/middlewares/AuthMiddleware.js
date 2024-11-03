@@ -14,7 +14,7 @@ const authToken = async (req, res, next) => {
     //Verificar el token
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     req.user = verified;
-    next();
+    next(); 
   } catch (error) {
     console.error(error);
     return res.status(400).json({

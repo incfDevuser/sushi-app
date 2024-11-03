@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import LoadingPage from "../../Components/LoadingPage";
-const UsuarioContext = createContext();
+import { useNavigate } from "react-router-dom";
 
+const UsuarioContext = createContext();
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const UsuarioProvider = ({ children }) => {
@@ -11,21 +12,19 @@ export const UsuarioProvider = ({ children }) => {
   const [autenticado, setAutenticado] = useState(false);
   const [loading, setLoading] = useState(true);
   const [autenticando, setAutenticando] = useState(false);
+  const [listaUsuarios, setListaUsuarios] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const usuario = async () => {
+    const obtenerUsuario = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`${baseURL}/usuarios/perfil`, {
           withCredentials: true,
         });
-        //Verificar que informacion nos trae devuelta
         console.log(response.data);
-        //Insertar el usuario
         setUsuario(response.data);
-        //Validar que el usuario esta autenticado
         setAutenticado(true);
-        //Ingresar el rol del usuario autenticado
         setRol(response.data.rol);
       } catch (error) {
         console.error("Error obteniendo el Usuario", error);
@@ -36,11 +35,23 @@ export const UsuarioProvider = ({ children }) => {
         setLoading(false);
       }
     };
+
     if (!autenticando) {
-      usuario();
+      obtenerUsuario();
     }
   }, [autenticando]);
 
+  const listaDeUsuarios = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/usuarios/`, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setListaUsuarios(response.data.usuarios);
+    } catch (error) {
+      console.error("Error obteniendo la lista de usuarios:", error);
+    }
+  };
   const iniciarSesion = async (email, contraseña) => {
     setAutenticando(true);
     try {
@@ -50,11 +61,8 @@ export const UsuarioProvider = ({ children }) => {
         { withCredentials: true }
       );
       console.log(response.data);
-      //Insertar al usuario autenticado
       setUsuario(response.data);
-      //Validar al usuario esta autenticado
       setAutenticado(true);
-      //Ingresar el rol del usuario autenticado
       setRol(response.data.rol);
     } catch (error) {
       console.error("Error Iniciando Sesion", error);
@@ -65,6 +73,7 @@ export const UsuarioProvider = ({ children }) => {
       setAutenticando(false);
     }
   };
+
   const registrarse = async (nuevoUsuario) => {
     setAutenticando(true);
     try {
@@ -74,11 +83,8 @@ export const UsuarioProvider = ({ children }) => {
         { withCredentials: true }
       );
       console.log(response.data);
-      //Insertar al usuario autenticado
       setUsuario(response.data);
-      //Validar al usuario esta autenticado
       setAutenticado(true);
-      //Ingresar el rol del usuario autenticado
       setRol(response.data.rol);
     } catch (error) {
       console.error("Error Registrando al Usuario", error);
@@ -99,25 +105,26 @@ export const UsuarioProvider = ({ children }) => {
       );
       setUsuario(null);
       setAutenticado(false);
-      //Ingresar el rol del usuario autenticado
       setRol("");
+      //Rederigir al Cerrar Sesion
+      navigate("/")
     } catch (error) {
       console.error("Error Cerrando Sesion", error);
     }
   };
+
   if (loading) {
-    return (
-      <div>
-        <LoadingPage />
-      </div>
-    );
+    return <LoadingPage />;
   }
+
   return (
     <UsuarioContext.Provider
       value={{
         usuario,
         autenticado,
         rol,
+        listaUsuarios,
+        listaDeUsuarios,
         iniciarSesion,
         registrarse,
         cerrarSesion,

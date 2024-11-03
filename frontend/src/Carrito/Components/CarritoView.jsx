@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCarrito } from "../Context/CarritoContext";
+import { usePedido } from "../../Pedidos/Context/PedidoContext";
 import CartItem from "./CartItem";
 import { toast } from "react-toastify";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const CarritoView = () => {
   const { carrito, eliminarProductoDelCarrito, vaciarCarrito } = useCarrito();
+  const { crearPedido } = usePedido();
+  const [medioPago, setMedioPago] = useState("Servipag");
+  const navigate = useNavigate();
+
   const totalCost = carrito
     ? carrito.productos
         .reduce(
@@ -14,6 +20,7 @@ const CarritoView = () => {
         )
         .toFixed(2)
     : "0.00";
+
   const handleVaciar = async (carritoId) => {
     try {
       await vaciarCarrito(carritoId);
@@ -24,6 +31,29 @@ const CarritoView = () => {
     }
   };
 
+  const handleOrdenarAhora = async () => {
+    if (!carrito || carrito.productos.length === 0) {
+      toast.error("Tu carrito está vacío.");
+      return;
+    }
+
+    try {
+      const nuevoPedido = {
+        carritoId: carrito._id,
+        medio_pago: medioPago,
+        descuento: 0,
+      };
+      const response = await crearPedido(nuevoPedido);
+      // handleVaciar(carrito._id);
+      //Rederigir a la pagina de sus ordenes
+      navigate("/pedidos");
+      toast.success("Orden Creada Correctamente!");
+    } catch (error) {
+      console.error("Error al crear el pedido:", error);
+      toast.error("Error al crear el pedido");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4 bg-white rounded-lg">
       <div className="flex gap-11 justify-center items-center mb-6 w-full text-center mx-auto">
@@ -31,7 +61,7 @@ const CarritoView = () => {
           Tu Carrito de Compras
         </h2>
         <button
-          onClick={()=> handleVaciar(carrito._id)}
+          onClick={() => handleVaciar(carrito._id)}
           className="text-xl flex items-center gap-2 text-red-500 hover:text-red-700"
         >
           <AiOutlineDelete /> Vaciar Carrito
@@ -62,7 +92,31 @@ const CarritoView = () => {
               </p>
               <p className="text-2xl font-bold text-green-600">${totalCost}</p>
             </div>
-            <button className="w-full bg-rojoPersonalizado text-white py-3 rounded-lg font-semibold shadow-md hover:bg-red-700 transition-all duration-300">
+
+            {/* Selector de método de pago */}
+            <div className="mb-6">
+              <label
+                htmlFor="medioPago"
+                className="text-gray-600 font-semibold"
+              >
+                Selecciona el método de pago:
+              </label>
+              <select
+                id="medioPago"
+                value={medioPago}
+                onChange={(e) => setMedioPago(e.target.value)}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rojoPersonalizado"
+              >
+                <option value="Servipag">Servipag</option>
+                <option value="Depósito Bancario">Depósito Bancario</option>
+                <option value="Mercado Pago">Mercado Pago</option>
+              </select>
+            </div>
+
+            <button
+              onClick={handleOrdenarAhora}
+              className="w-full bg-rojoPersonalizado text-white py-3 rounded-lg font-semibold shadow-md hover:bg-red-700 transition-all duration-300"
+            >
               Ordenar Ahora
             </button>
           </div>
@@ -73,4 +127,5 @@ const CarritoView = () => {
     </div>
   );
 };
+
 export default CarritoView;

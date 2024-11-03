@@ -4,13 +4,19 @@ import "./index.css";
 import App from "./App.jsx";
 import { UsuarioProvider } from "./Usuarios/Context/UsuarioContext.jsx";
 import { CarritoProvider } from "./Carrito/Context/CarritoContext.jsx";
+import { PedidoProvider } from "./Pedidos/Context/PedidoContext.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <UsuarioProvider>
-      <CarritoProvider>
-        <App />
-      </CarritoProvider>
-    </UsuarioProvider>
+    <BrowserRouter>
+      <UsuarioProvider>
+        <CarritoProvider>
+          <PedidoProvider>
+            <App />
+          </PedidoProvider>
+        </CarritoProvider>
+      </UsuarioProvider>
+    </BrowserRouter>
   </StrictMode>
 );

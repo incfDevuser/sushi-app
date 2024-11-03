@@ -32,7 +32,7 @@ router.delete(
 
 //Ruta para cancelar el pedido
 router.put(
-  "/cancelarPedido/:id",
+  "/pedido/cancelarPedido/:id",
   AuthMiddleware.authToken,
   PedidoController.cancelarPedido
 );
