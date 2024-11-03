@@ -6,7 +6,7 @@ const PedidosAdminContainer = () => {
   return (
     <div className="flex w-full">
       <DashboardAside />
-      <div className="flex flex-col flex-1 p-6">
+      <div className="flex flex-col flex-1 ">
         <ListaAdminPedidos />
       </div>
     </div>

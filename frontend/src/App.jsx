@@ -20,72 +20,80 @@ import PedidosContainer from "./Pedidos/PedidosContainer";
 import DashboardPage from "./Pages/DashboardPage";
 //Contextos
 import { ProductProvider } from "./Products/Context/ProductContext";
-import { UsuarioProvider } from "./Usuarios/Context/UsuarioContext";
-
-//Productos
+import { DespachoProvider } from "./Despacho/Context/DespachoContext";
+//Producto
 import CrearProductoPage from "./Pages/CrearProductoPage";
-
-//Carrito
-import { CarritoProvider } from "./Carrito/Context/CarritoContext";
-
-//Pedidos
-import { PedidoProvider } from "./Pedidos/Context/PedidoContext";
-
 //Rutas para ADMIN DASHBOARD
 import UsuariosContainer from "./Usuarios/UsuariosContainer";
 import PedidosAdminContainer from "./Admin/PedidosAdminContainer";
+import DespachoContainer from "./Despacho/DespachoContainer";
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
-        <Header />
-        <Navbar />
-        <div className="flex-grow">
-          <Routes>
-            {/* Pagina principal */}
-            <Route path="/" element={<HomePage />} />
+      <Header />
+      <Navbar />
+      <div className="flex-grow">
+        <Routes>
+          {/* Pagina principal */}
+          <Route path="/" element={<HomePage />} />
 
-            {/* Paginas de Autenticacion */}
-            <Route path="/iniciarSesion" element={<LoginPage />} />
-            <Route path="/registrarse" element={<RegisterPage />} />
+          {/* Paginas de Autenticacion */}
+          <Route path="/iniciarSesion" element={<LoginPage />} />
+          <Route path="/registrarse" element={<RegisterPage />} />
 
-            {/* Menu - Lista de Productos */}
-            <Route
-              path="/menu"
-              element={
-                <ProductProvider>
-                  <ProductPage />
-                </ProductProvider>
-              }
-            />
+          {/* Menu - Lista de Productos */}
+          <Route
+            path="/menu"
+            element={
+              <ProductProvider>
+                <ProductPage />
+              </ProductProvider>
+            }
+          />
 
-            {/* Sobre Nosotros Page */}
-            <Route path="/nosotros" element={<NosotrosPage />} />
+          {/* Sobre Nosotros Page */}
+          <Route path="/nosotros" element={<NosotrosPage />} />
 
-            {/* Ruta de Usuario */}
-            <Route path="/perfil" element={<PerfilPage />} />
-            <Route path="/carrito" element={<CarritoContainer />} />
-            <Route path="/pedidos" element={<PedidosContainer />} />
+          {/* Ruta de Usuario */}
+          <Route path="/perfil" element={<PerfilPage />} />
+          <Route path="/carrito" element={<CarritoContainer />} />
+          <Route path="/pedidos" element={<PedidosContainer />} />
 
-            {/* Ruta Usuario "Super Admin" - Dashboard */}
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/listaPedidos" element={<PedidosAdminContainer />} />
+          {/* Ruta Usuario "Super Admin" - Dashboard */}
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/listaPedidos"
+            element={
+              <DespachoProvider>
+                <PedidosAdminContainer />
+              </DespachoProvider>
+            }
+          />
 
-            {/* Crear producto page */}
-            <Route
-              path="/crearProducto"
-              element={
-                <ProductProvider>
-                  <CrearProductoPage />
-                </ProductProvider>
-              }
-            />
+          {/* Crear producto page */}
+          <Route
+            path="/crearProducto"
+            element={
+              <ProductProvider>
+                <CrearProductoPage />
+              </ProductProvider>
+            }
+          />
 
-            {/* Rutas ADMIN ASIDE */}
-            <Route path="/usuarios" element={<UsuariosContainer />} />
-          </Routes>
-        </div>
-        <Footer />
+          {/* Rutas ADMIN ASIDE */}
+          <Route path="/usuarios" element={<UsuariosContainer />} />
+          <Route
+            path="/despachos"
+            element={
+              <DespachoProvider>
+                <DespachoContainer />
+              </DespachoProvider>
+            }
+          />
+        </Routes>
+      </div>
+      <Footer />
       <ToastContainer />
     </div>
   );

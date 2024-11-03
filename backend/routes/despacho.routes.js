@@ -22,7 +22,7 @@ router.get(
 router.post(
   "/crearDespacho",
   AuthMiddleware.authToken,
-  AuthMiddleware.isDespachador,
+  AuthMiddleware.isSuperAdmin,
   DespachoController.crearDespacho
 );
 //Ruta para actualizar despacho

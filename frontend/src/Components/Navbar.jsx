@@ -8,6 +8,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
 import { VscGraphLine } from "react-icons/vsc";
 import { IoCartOutline } from "react-icons/io5";
+import { FaTruck } from "react-icons/fa";
 
 const Navbar = () => {
   const { rol, autenticado, cerrarSesion } = useUsuario();
@@ -60,6 +61,10 @@ const Navbar = () => {
                   <IoIosAddCircleOutline />
                 </Link>
               </>
+            ) : rol === "despacho" ? (
+              <Link to="/despacho" className="text-xl">
+                <FaTruck />
+              </Link>
             ) : (
               <>
                 <Link to="/carrito" className="text-xl">
@@ -74,8 +79,6 @@ const Navbar = () => {
             <Link to="/perfil" className="text-xl">
               <FaRegUser />
             </Link>
-
-            {/* Botón de cerrar sesión */}
             <button
               onClick={cerrarSesion}
               className="p-2 bg-rojoPersonalizado text-white font-semibold rounded-xl border-b-4 border-red-700 hover:border-red-950 transition duration-300 ease-in-out transform"

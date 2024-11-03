@@ -1,11 +1,23 @@
 import Despacho from "../models/despachoSchema.js";
 
-//Obtener todos los despachos con pedido
+// Obtener todos los despachos con información detallada del pedido y el encargado del despacho
 const obtenerDespachos = async (req, res) => {
   try {
-    const despachos = await Despacho.find().populate(
-      "pedido encargado_despacho"
-    );
+    const despachos = await Despacho.find()
+      .populate({
+        path: "pedido",
+        populate: {
+          path: "cliente",
+          model: "Usuario",
+          select: "nombre_completo direccion comuna ciudad region email telefono", // Campos del cliente que deseas incluir
+        },
+      })
+      .populate({
+        path: "encargado_despacho",
+        model: "Usuario",
+        select: "nombre_completo email telefono", 
+      });
+
     return res.status(200).json({
       message: "Lista de despachos",
       despachos,
@@ -17,6 +29,7 @@ const obtenerDespachos = async (req, res) => {
     });
   }
 };
+
 //Obtener un despacho por ID
 const obtenerDespacho = async (req, res) => {
   const { id } = req.params;
@@ -41,6 +54,7 @@ const obtenerDespacho = async (req, res) => {
   }
 };
 //Crear un despacho
+// Crear un despacho
 const crearDespacho = async (req, res) => {
   const { pedido, direccion_entrega, fecha_entrega } = req.body;
   try {
@@ -55,17 +69,17 @@ const crearDespacho = async (req, res) => {
       });
     }
     const encargado_despacho = req.user._id;
-
-    // Crear el nuevo despacho
+    const origen_entrega = req.body.origen_entrega || "Ubicación no especificada";
     const nuevoDespacho = new Despacho({
       pedido,
       encargado_despacho,
+      origen_entrega,
       direccion_entrega,
       fecha_entrega,
       estado_entrega: "Pendiente",
     });
+  
     await nuevoDespacho.save();
-
     return res.status(201).json({
       message: "Despacho creado exitosamente",
       despacho: nuevoDespacho,

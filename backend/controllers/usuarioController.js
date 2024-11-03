@@ -82,6 +82,7 @@ const registrarse = async (req, res) => {
       _id: nuevoUsuario._id,
       nombre: nuevoUsuario.nombre_completo,
       email: nuevoUsuario.email,
+      direccion:nuevoUsuario.direccion,
       rol: nuevoUsuario.rol,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -133,6 +134,7 @@ const iniciarSesion = async (req, res) => {
       _id: usuario._id,
       nombre: usuario.nombre_completo,
       email: usuario.email,
+      direccion:usuario.direccion,
       rol: usuario.rol,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
