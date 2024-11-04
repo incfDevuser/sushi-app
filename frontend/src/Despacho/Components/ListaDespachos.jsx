@@ -16,6 +16,7 @@ const ListaDespachos = () => {
   return (
     <div className="p-6 w-full">
       <h2 className="text-2xl font-bold mb-4">Lista de Despachos</h2>
+      <div className='flex flex-col justify-center items-center gap-4'>
       {despachos.length > 0 ? (
         despachos.map((despacho) => (
           <DespachoItem key={despacho._id} despacho={despacho} />
@@ -23,6 +24,7 @@ const ListaDespachos = () => {
       ) : (
         <p>No hay despachos disponibles.</p>
       )}
+      </div>
     </div>
   );
 };

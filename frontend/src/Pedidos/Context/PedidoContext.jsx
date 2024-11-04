@@ -9,7 +9,6 @@ export const PedidoProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [pedidosUser, setPedidosUser] = useState([]);
 
-
   const fetchPedidos = async () => {
     setLoading(true);
     try {
@@ -94,7 +93,27 @@ export const PedidoProvider = ({ children }) => {
       throw error;
     }
   };
-
+  //Confirmar un Pedido
+  const confirmarPedido = async (pedidoId) => {
+    try {
+      const response = await axios.patch(
+        `${baseURL}/pedidos/pedido/confirmarPedido/${pedidoId}`,
+        {},
+        { withCredentials: true }
+      );
+      setPedidos((prevPedidos) =>
+        prevPedidos.map((pedido) =>
+          pedido._id === pedidoId
+            ? { ...pedido, estado_pedido: "Confirmado" }
+            : pedido
+        )
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al confirmar el pedido:", error);
+      throw error;
+    }
+  };
   return (
     <PedidoContext.Provider
       value={{
@@ -106,6 +125,7 @@ export const PedidoProvider = ({ children }) => {
         crearPedido,
         eliminarPedido,
         cancelarPedido,
+        confirmarPedido
       }}
     >
       {children}

@@ -10,7 +10,7 @@ import { usePedido } from "../Context/PedidoContext";
 import { toast } from "react-toastify";
 
 const PedidoItem = ({ pedido }) => {
-  const { eliminarPedido, cancelarPedido } = usePedido();
+  const { eliminarPedido, cancelarPedido, confirmarPedido } = usePedido();
   const fechaPedido = new Date(pedido.fecha_pedido).toLocaleDateString();
 
   const estadosColores = {
@@ -36,6 +36,15 @@ const PedidoItem = ({ pedido }) => {
     } catch (error) {
       console.error("Error al cancelar el pedido:", error);
       toast.error("Hubo un error al intentar cancelar el pedido");
+    }
+  };
+  const handleConfirmarPedido = async () => {
+    try {
+      await confirmarPedido(pedido._id);
+      toast.success("Pedido confirmado exitosamente");
+    } catch (error) {
+      console.error("Error al confirmar el pedido:", error);
+      toast.error("Hubo un error al intentar confirmar el pedido");
     }
   };
   return (
@@ -148,6 +157,13 @@ const PedidoItem = ({ pedido }) => {
           className="flex items-center bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition-all duration-200"
         >
           <AiOutlineDelete className="mr-2" /> Eliminar Pedido
+        </button>
+        <button
+          onClick={handleConfirmarPedido}
+          disabled={pedido.estado_pedido === "Confirmado"}
+          className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200 disabled:bg-gray-300"
+        >
+          <FaRegCreditCard className="mr-2" /> Pagar Pedido
         </button>
       </div>
     </div>

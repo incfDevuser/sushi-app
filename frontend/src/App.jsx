@@ -28,6 +28,10 @@ import UsuariosContainer from "./Usuarios/UsuariosContainer";
 import PedidosAdminContainer from "./Admin/PedidosAdminContainer";
 import DespachoContainer from "./Despacho/DespachoContainer";
 
+//Rutas para el despachador
+import DespachadorView from "./Despacho/DespachadorView";
+import DespachadorEnvio from "./Despacho/Context/DespachadorEnvio";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen w-full cursor-pointer">
@@ -83,11 +87,29 @@ function App() {
 
           {/* Rutas ADMIN ASIDE */}
           <Route path="/usuarios" element={<UsuariosContainer />} />
+          {/* Despachos Para el Admin */}
           <Route
             path="/despachos"
             element={
               <DespachoProvider>
                 <DespachoContainer />
+              </DespachoProvider>
+            }
+          />
+          {/* Despachos para el "Despachador" */}
+          <Route
+            path="/despachadorView"
+            element={
+              <DespachoProvider>
+                <DespachadorView />
+              </DespachoProvider>
+            }
+          />
+          <Route
+            path="/envios"
+            element={
+              <DespachoProvider>
+                <DespachadorEnvio />
               </DespachoProvider>
             }
           />

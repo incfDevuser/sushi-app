@@ -62,9 +62,14 @@ const Navbar = () => {
                 </Link>
               </>
             ) : rol === "despacho" ? (
-              <Link to="/despacho" className="text-xl">
-                <FaTruck />
-              </Link>
+              <>
+                <Link to="/despachadorView" className="text-xl">
+                  <FaClipboardList />
+                </Link>
+                <Link to="/envios" className="text-xl">
+                  <FaTruck />
+                </Link>
+              </>
             ) : (
               <>
                 <Link to="/carrito" className="text-xl">

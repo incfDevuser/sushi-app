@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDespacho } from "../../Despacho/Context/DespachoContext";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const PedidoItem = ({ pedido }) => {
   const fechaPedido = new Date(pedido.fecha_pedido).toLocaleDateString();
-  const navigate = useNavigate();
   const { generarDespacho } = useDespacho();
   const [mensaje, setMensaje] = useState(null);
   const [origenEntrega, setOrigenEntrega] = useState(
@@ -97,13 +95,13 @@ const PedidoItem = ({ pedido }) => {
 
       {/* Generar Despacho */}
       <div className="mt-4">
-        <h4 className="text-lg font-semibold text-gray-700 mb-2">
+        <h4 className="text-lg font-semibold text-gray-700 mb-4">
           Generar Despacho
         </h4>
-        <div className="space-y-2">
+        <div className="flex justify-between items-center">
           <button
             onClick={handleDespacho}
-            className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-[300px] bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
           >
             Generar Despacho
           </button>

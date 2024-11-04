@@ -54,7 +54,6 @@ const obtenerDespacho = async (req, res) => {
   }
 };
 //Crear un despacho
-// Crear un despacho
 const crearDespacho = async (req, res) => {
   const { pedido, direccion_entrega, fecha_entrega } = req.body;
   try {

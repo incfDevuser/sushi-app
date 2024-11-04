@@ -7,7 +7,7 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 export const DespachoProvider = ({ children }) => {
   const [despachos, setDespachos] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const obtenerDespachos = async () => {
     setLoading(true);
     try {
@@ -38,6 +38,23 @@ export const DespachoProvider = ({ children }) => {
       throw error;
     }
   };
+  const finalizarDespacho = async (idDespacho) => {
+    try {
+      const response = await axios.put(
+        `${baseURL}/despachos/despacho/${idDespacho}`,
+        {},
+        { withCredentials: true }
+      );
+      setDespachos((prevDespachos) =>
+        prevDespachos.map((despacho) =>
+          despacho._id === idDespacho ? response.data.despacho : despacho
+        )
+      );
+    } catch (error) {
+      console.error("Error al finalizar el despacho:", error);
+      throw error;
+    }
+  };
   const eliminarDespacho = async (despachoId) => {
     try {
       await axios.delete(`${baseURL}/despachos/despacho/${despachoId}`, {
@@ -59,6 +76,7 @@ export const DespachoProvider = ({ children }) => {
         obtenerDespachos,
         generarDespacho,
         eliminarDespacho,
+        finalizarDespacho
       }}
     >
       {children}

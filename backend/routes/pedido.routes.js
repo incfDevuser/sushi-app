@@ -7,7 +7,11 @@ const router = express.Router();
 router.get("/", AuthMiddleware.authToken, PedidoController.obtenerPedidos);
 
 //Ruta para obtener un pedido
-router.get("/pedido/:id", AuthMiddleware.authToken, PedidoController.obtenerPedido);
+router.get(
+  "/pedido/:id",
+  AuthMiddleware.authToken,
+  PedidoController.obtenerPedido
+);
 
 //Ruta para crear un pedido, este es lo que usuario creara con el boton de ordenar o crear podido
 router.post(
@@ -35,6 +39,13 @@ router.put(
   "/pedido/cancelarPedido/:id",
   AuthMiddleware.authToken,
   PedidoController.cancelarPedido
+);
+
+//Ruta para confirmar el pedido
+router.patch(
+  "/pedido/confirmarPedido/:id",
+  AuthMiddleware.authToken,
+  PedidoController.confirmarPedido
 );
 
 export default router;
