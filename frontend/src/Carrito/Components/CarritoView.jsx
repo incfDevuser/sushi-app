@@ -44,8 +44,6 @@ const CarritoView = () => {
         descuento: 0,
       };
       const response = await crearPedido(nuevoPedido);
-      // handleVaciar(carrito._id);
-      //Rederigir a la pagina de sus ordenes
       navigate("/pedidos");
       toast.success("Orden Creada Correctamente!");
     } catch (error) {
@@ -55,16 +53,16 @@ const CarritoView = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4 bg-white rounded-lg">
-      <div className="flex gap-11 justify-center items-center mb-6 w-full text-center mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800">
+    <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4 md:p-6 lg:p-8 rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-11 justify-center items-center mb-6 w-full text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
           Tu Carrito de Compras
         </h2>
         <button
           onClick={() => handleVaciar(carrito._id)}
-          className="text-xl flex items-center gap-2 text-red-500 hover:text-red-700"
+          className="text-lg flex items-center gap-2 text-red-500 hover:text-red-700 transition"
         >
-          <AiOutlineDelete /> Vaciar Carrito
+          <AiOutlineDelete className="text-xl" /> Vaciar Carrito
         </button>
       </div>
 
@@ -87,13 +85,12 @@ const CarritoView = () => {
           </div>
           <div className="w-full bg-gray-50 p-6 rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-6">
-              <p className="text-xl font-semibold text-gray-600">
+              <p className="text-lg md:text-xl font-semibold text-gray-600">
                 Total del Carrito:
               </p>
-              <p className="text-2xl font-bold text-green-600">${totalCost}</p>
+              <p className="text-xl md:text-2xl font-bold text-green-600">${totalCost}</p>
             </div>
 
-            {/* Selector de método de pago */}
             <div className="mb-6">
               <label
                 htmlFor="medioPago"
@@ -127,5 +124,5 @@ const CarritoView = () => {
     </div>
   );
 };
-
 export default CarritoView;
+

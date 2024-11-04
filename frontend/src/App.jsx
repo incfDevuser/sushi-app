@@ -40,7 +40,14 @@ function App() {
       <div className="flex-grow">
         <Routes>
           {/* Pagina principal */}
-          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <ProductProvider>
+                <HomePage />
+              </ProductProvider>
+            }
+          />
 
           {/* Paginas de Autenticacion */}
           <Route path="/iniciarSesion" element={<LoginPage />} />

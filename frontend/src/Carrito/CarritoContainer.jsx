@@ -1,12 +1,13 @@
-import React from 'react'
-import CarritoView from './Components/CarritoView'
+import React from 'react';
+import CarritoView from './Components/CarritoView';
 
 const CarritoContainer = () => {
   return (
-    <div>
-      <CarritoView/>
+    <div className="flex justify-center items-center p-4 md:p-8 min-h-screen">
+      <CarritoView />
     </div>
-  )
-}
+  );
+};
 
-export default CarritoContainer
+export default CarritoContainer;
+  

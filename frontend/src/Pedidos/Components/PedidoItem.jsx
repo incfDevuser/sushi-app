@@ -20,6 +20,7 @@ const PedidoItem = ({ pedido }) => {
     "En preparación": "bg-blue-200 text-blue-800",
     Entregado: "bg-gray-200 text-gray-800",
   };
+
   const handleEliminarPedido = async () => {
     try {
       await eliminarPedido(pedido._id);
@@ -29,6 +30,7 @@ const PedidoItem = ({ pedido }) => {
       toast.error("Hubo un error al intentar eliminar el pedido");
     }
   };
+
   const handleCancelarPedido = async () => {
     try {
       await cancelarPedido(pedido._id);
@@ -38,6 +40,7 @@ const PedidoItem = ({ pedido }) => {
       toast.error("Hubo un error al intentar cancelar el pedido");
     }
   };
+
   const handleConfirmarPedido = async () => {
     try {
       await confirmarPedido(pedido._id);
@@ -47,17 +50,16 @@ const PedidoItem = ({ pedido }) => {
       toast.error("Hubo un error al intentar confirmar el pedido");
     }
   };
+
   return (
-    <div className="border p-6 rounded-lg shadow-md bg-white hover:shadow-lg transition-shadow duration-300">
+    <div className="border p-6 rounded-lg shadow-md bg-white hover:shadow-lg transition-shadow duration-300 w-full mb-6">
       {/* Header con el estado y el ID del pedido */}
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h3 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
           <FaCheckCircle className="text-green-500" /> Pedido #{pedido._id}
         </h3>
         <span
-          className={`px-3 py-1 rounded-full text-sm font-semibold ${
-            estadosColores[pedido.estado_pedido]
-          }`}
+          className={`px-3 py-1 rounded-full text-sm font-semibold ${estadosColores[pedido.estado_pedido]}`}
         >
           {pedido.estado_pedido}
         </span>
@@ -103,12 +105,15 @@ const PedidoItem = ({ pedido }) => {
           <strong>Teléfono:</strong> {pedido.cliente.telefono}
         </p>
       </div>
+
+      {/* Detalles adicionales */}
       <div className="bg-gray-50 p-4 rounded-lg mb-4">
         <h4 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
           <AiOutlineInfoCircle /> Detalles Adicionales
         </h4>
         <p className="text-gray-600">Descuento Aplicado: ${pedido.descuento}</p>
       </div>
+
       {/* Lista de productos */}
       <div>
         <h4 className="text-lg font-semibold text-gray-700 mb-2">Productos</h4>
@@ -145,7 +150,8 @@ const PedidoItem = ({ pedido }) => {
         </ul>
       </div>
 
-      <div className="flex justify-end space-x-4 mt-6">
+      {/* Botones de acción */}
+      <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4 mt-6">
         <button
           onClick={handleCancelarPedido}
           className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 transition-all duration-200"

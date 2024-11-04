@@ -19,9 +19,9 @@ const ProductList = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-2">
-      <h2 className="text-2xl mb-10">Explora Nuestro Menú</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div className="flex flex-col justify-center items-center mt-2 w-full">
+      <h2 className="text-2xl md:text-3xl font-semibold mb-10 text-center">Explora Nuestro Menú</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
         {productos.map((producto) => (
           <ProductItem
             key={producto._id}

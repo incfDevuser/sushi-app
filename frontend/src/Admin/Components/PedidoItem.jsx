@@ -9,6 +9,7 @@ const PedidoItem = ({ pedido }) => {
   const [origenEntrega, setOrigenEntrega] = useState(
     "Ubicación no especificada"
   );
+
   const obtenerUbicacionActual = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -25,6 +26,7 @@ const PedidoItem = ({ pedido }) => {
       setMensaje("Geolocalización no soportada en este navegador.");
     }
   };
+
   const handleDespacho = async () => {
     const nuevoDespacho = {
       pedido: pedido._id,
@@ -39,15 +41,19 @@ const PedidoItem = ({ pedido }) => {
       toast.error("Error Al Generar el Despacho");
     }
   };
+
   useEffect(() => {
     obtenerUbicacionActual();
   }, []);
+
   return (
-    <div className="border p-6 rounded-lg shadow-md bg-white mb-4">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold">Pedido #{pedido._id}</h3>
+    <div className="border p-4 sm:p-6 rounded-lg shadow-md bg-white mb-4 transition-shadow duration-300 hover:shadow-lg">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <h3 className="text-lg sm:text-xl font-semibold">
+          Pedido #{pedido._id}
+        </h3>
         <span
-          className={`px-3 py-1 rounded-full text-sm font-bold ${
+          className={`mt-2 sm:mt-0 px-3 py-1 rounded-full text-sm font-bold ${
             pedido.estado_pedido === "Pendiente"
               ? "bg-yellow-200 text-yellow-800"
               : "bg-green-200 text-green-800"
@@ -56,8 +62,6 @@ const PedidoItem = ({ pedido }) => {
           {pedido.estado_pedido}
         </span>
       </div>
-
-      {/* Información del cliente */}
       <div className="text-gray-700 space-y-2 mb-4">
         <p>
           <strong>Cliente:</strong> {pedido.cliente.nombre_completo}
@@ -74,8 +78,6 @@ const PedidoItem = ({ pedido }) => {
           <strong>Teléfono:</strong> {pedido.cliente.telefono}
         </p>
       </div>
-
-      {/* Detalles del Pedido */}
       <div className="text-gray-600 space-y-2">
         <p>
           <strong>Fecha del Pedido:</strong> {fechaPedido}
@@ -92,24 +94,23 @@ const PedidoItem = ({ pedido }) => {
           </p>
         )}
       </div>
-
-      {/* Generar Despacho */}
       <div className="mt-4">
-        <h4 className="text-lg font-semibold text-gray-700 mb-4">
+        <h4 className="text-lg font-semibold text-gray-700 mb-2">
           Generar Despacho
         </h4>
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row gap-3 items-center">
           <button
             onClick={handleDespacho}
-            className="w-[300px] bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full sm:w-auto bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
           >
             Generar Despacho
           </button>
-          {mensaje && <p className="text-sm text-gray-600 mt-2">{mensaje}</p>}
+          {mensaje && (
+            <p className="text-sm text-gray-600 sm:mt-0 mt-2">{mensaje}</p>
+          )}
         </div>
       </div>
     </div>
   );
 };
-
 export default PedidoItem;
