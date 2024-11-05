@@ -2,7 +2,7 @@ import React from "react";
 
 const NosotrosPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center mt-12 px-6 md:px-16 lg:px-32 py-12 bg-cover bg-center bg-gray-50 text-gray-800">
+    <div className="flex flex-col items-center justify-center mt-12 px-6 md:px-16 lg:px-32 py-12 bg-cover bg-center  text-gray-800">
       <h1 className="text-4xl font-bold text-center text-primary mb-8">
         Sobre Nosotros
       </h1>
