@@ -15,8 +15,8 @@ const ListaDespachos = () => {
 
   return (
     <div className="p-6 w-full">
-      <h2 className="text-2xl font-bold mb-4">Lista de Despachos</h2>
-      <div className='flex flex-col justify-center items-center gap-4'>
+      <h2 className="text-2xl font-bold mb-11">Lista de Despachos</h2>
+      <div className='flex justify-start items-center gap-4'>
       {despachos.length > 0 ? (
         despachos.map((despacho) => (
           <DespachoItem key={despacho._id} despacho={despacho} />

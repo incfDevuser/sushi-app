@@ -6,7 +6,7 @@ const CarrouselProductCard = ({
   imagenUrl,
 }) => {
   return (
-    <div className="flex flex-col items-center mt-8">
+    <div className="flex flex-col items-center mt-8 p-7">
       <div className="flex gap-5 bg-white rounded-xl p-6 shadow-lg transform transition duration-300 hover:scale-105">
         <div className="flex flex-col gap-4 p-4">
           <h3 className="text-2xl font-bold text-red-600">🍣 Más Vendidos</h3>
