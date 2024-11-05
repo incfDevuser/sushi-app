@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDespacho } from '../Context/DespachoContext';
-import DespachoItem from './DespachoItem';
+import React, { useEffect } from "react";
+import { useDespacho } from "../Context/DespachoContext";
+import DespachoItem from "./DespachoItem";
 
 const ListaDespachos = () => {
   const { despachos, obtenerDespachos, loading } = useDespacho();
@@ -14,16 +14,16 @@ const ListaDespachos = () => {
   }
 
   return (
-    <div className="p-6 w-full">
-      <h2 className="text-2xl font-bold mb-11">Lista de Despachos</h2>
-      <div className='flex justify-start items-center gap-4'>
-      {despachos.length > 0 ? (
-        despachos.map((despacho) => (
-          <DespachoItem key={despacho._id} despacho={despacho} />
-        ))
-      ) : (
-        <p>No hay despachos disponibles.</p>
-      )}
+    <div className="p-4 md:p-6 w-full">
+      <h2 className="text-center text-2xl font-bold mb-6">Lista de Despachos</h2>
+      <div className="flex flex-col justify-center items-center md:flex-row md:flex-wrap gap-4">
+        {despachos.length > 0 ? (
+          despachos.map((despacho) => (
+            <DespachoItem key={despacho._id} despacho={despacho} />
+          ))
+        ) : (
+          <p>No hay despachos disponibles.</p>
+        )}
       </div>
     </div>
   );

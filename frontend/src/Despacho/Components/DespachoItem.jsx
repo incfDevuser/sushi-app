@@ -4,10 +4,13 @@ import {
   FaMapMarkerAlt,
   FaDollarSign,
   FaTruck,
+  FaCheckCircle,
 } from "react-icons/fa";
+import { useDespacho } from "../Context/DespachoContext";
 
 const DespachoItem = ({ despacho }) => {
   const [ubicacion, setUbicacion] = useState("Cargando ubicación...");
+  const { finalizarDespacho } = useDespacho();
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -39,6 +42,15 @@ const DespachoItem = ({ despacho }) => {
     }
   };
 
+  const handleFinalizar = async () => {
+    try {
+      await finalizarDespacho(despacho._id);
+      alert(`El despacho ${despacho._id} ha sido finalizado.`);
+    } catch (error) {
+      alert("Error al finalizar el despacho. Intenta nuevamente.");
+    }
+  };
+
   useEffect(() => {
     if (despacho.origen_entrega) {
       const [lat, lon] = despacho.origen_entrega
@@ -51,70 +63,63 @@ const DespachoItem = ({ despacho }) => {
   }, [despacho.origen_entrega]);
 
   return (
-    <div className="border rounded-lg shadow-lg bg-white overflow-hidden">
+    <div className="border rounded-lg shadow-lg bg-white overflow-hidden w-full sm:w-1/2 lg:w-1/3">
       <div
-        className={`p-4 ${getEstadoColor(
-          despacho.estado_entrega
-        )} font-semibold text-center text-lg`}
+        className={`p-4 ${getEstadoColor(despacho.estado_entrega)} font-semibold text-center text-lg`}
       >
         Estado de Entrega: {despacho.estado_entrega}
       </div>
-      <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold text-gray-800">
-            Pedido #{despacho.pedido._id}
-          </h3>
-          <p className="text-sm text-gray-500">
-            {new Date(despacho.pedido.fecha_pedido).toLocaleDateString()}
+      <div className="p-4 space-y-4">
+        <h3 className="text-lg font-bold text-gray-800">
+          Pedido #{despacho.pedido?._id || "Desconocido"}
+        </h3>
+        <p className="text-sm text-gray-500">
+          {despacho.pedido?.fecha_pedido
+            ? new Date(despacho.pedido.fecha_pedido).toLocaleDateString()
+            : "Fecha no disponible"}
+        </p>
+
+        <section className="space-y-2">
+          <h4 className="text-md font-semibold text-gray-700 flex items-center">
+            <FaUser className="text-blue-500 mr-2" /> Cliente
+          </h4>
+          <p>
+            <strong>Nombre:</strong> {despacho.pedido?.cliente?.nombre_completo || "Nombre no disponible"}
           </p>
-        </div>
-
-        <section className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-700 flex items-center">
-            <FaUser className="text-blue-500 mr-2" /> Información del Cliente
-          </h4>
-          <div className="ml-6 text-gray-800">
-            <p><strong>Nombre:</strong> {despacho.pedido.cliente.nombre_completo}</p>
-            <p><strong>Teléfono:</strong> {despacho.pedido.cliente.telefono}</p>
-            <p><strong>Email:</strong> {despacho.pedido.cliente.email}</p>
-          </div>
         </section>
 
-        <section className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-700 flex items-center">
-            <FaMapMarkerAlt className="text-red-500 mr-2" /> Dirección de Entrega
+        <section className="space-y-2">
+          <h4 className="text-md font-semibold text-gray-700 flex items-center">
+            <FaMapMarkerAlt className="text-red-500 mr-2" /> Entrega
           </h4>
-          <div className="ml-6 text-gray-800">
-            <p>{despacho.direccion_entrega}</p>
-            <p><strong>Ubicación de Origen:</strong> {ubicacion}</p>
-          </div>
+          <p>{despacho.direccion_entrega || "Dirección no disponible"}</p>
+          <p><strong>Ubicación de Origen:</strong> {ubicacion}</p>
         </section>
 
-        <section className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-700 flex items-center">
-            <FaDollarSign className="text-green-500 mr-2" /> Detalles del Pedido
+        <section className="space-y-2">
+          <h4 className="text-md font-semibold text-gray-700 flex items-center">
+            <FaDollarSign className="text-green-500 mr-2" /> Detalles
           </h4>
-          <div className="ml-6 text-gray-800">
-            <p><strong>Total:</strong> ${despacho.pedido.total_pedido.toLocaleString()}</p>
-            <p><strong>Método de Pago:</strong> {despacho.pedido.medio_pago}</p>
-            {despacho.pedido.descuento > 0 && (
-              <p><strong>Descuento:</strong> ${despacho.pedido.descuento.toLocaleString()}</p>
-            )}
-          </div>
+          <p><strong>Total:</strong> ${despacho.pedido?.total_pedido?.toLocaleString() || "Total no disponible"}</p>
         </section>
 
-        <section className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-700 flex items-center">
-            <FaTruck className="text-gray-600 mr-2" /> Encargado del Despacho
+        <section className="space-y-2">
+          <h4 className="text-md font-semibold text-gray-700 flex items-center">
+            <FaTruck className="text-gray-600 mr-2" /> Encargado
           </h4>
-          <div className="ml-6 text-gray-800">
-            <p><strong>Nombre:</strong> {despacho.encargado_despacho.nombre_completo}</p>
-            <p><strong>Contacto:</strong> {despacho.encargado_despacho.email} | {despacho.encargado_despacho.telefono}</p>
-          </div>
+          <p><strong>Nombre:</strong> {despacho.encargado_despacho?.nombre_completo || "Encargado no disponible"}</p>
         </section>
+
+        <button
+          onClick={handleFinalizar}
+          className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
+        >
+          <FaCheckCircle className="inline mr-2" /> Finalizar Despacho
+        </button>
       </div>
     </div>
   );
 };
 
 export default DespachoItem;
+
